@@ -1,4 +1,6 @@
+import 'package:counter/cubit/counter_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CounterView extends StatelessWidget {
   const CounterView({super.key});
@@ -8,24 +10,38 @@ class CounterView extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.grey[900],
         appBar: AppBar(
-            backgroundColor: Colors.grey[850],
-            title:
-                const Text('Counter', style: TextStyle(color: Colors.amber))),
-        body: const Center(
-          child:
-              Text('0', style: TextStyle(fontSize: 100, color: Colors.amber)),
+            backgroundColor: Colors.amber[700],
+            title: const Text('Cubit Counter',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold))),
+        body: Center(
+          child: BlocBuilder<CounterCubit, int>(
+            builder: (context, state) {
+              return Text('[ $state ]',
+                  style: const TextStyle(
+                      fontSize: 100,
+                      color: Colors.amber,
+                      fontWeight: FontWeight.bold));
+            },
+          ),
         ),
         floatingActionButton: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                context.read<CounterCubit>().increment();
+              },
               backgroundColor: Colors.green[400],
               child: const Icon(Icons.add),
             ),
             const SizedBox(width: 10),
             FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                context.read<CounterCubit>().decrement();
+              },
               backgroundColor: Colors.red[400],
               child: const Icon(Icons.remove),
             ),
